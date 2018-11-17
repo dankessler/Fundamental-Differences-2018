@@ -1,4 +1,4 @@
-function [ps, real_ll, null_ll_median] = FundamentalUnits_SBM_Test(path,nperms,topComps,dropNets,sanity,seed)
+function [ps, real_ll, null_ll_median, null_ll_full] = FundamentalUnits_SBM_Test(path,nperms,topComps,dropNets,sanity,seed)
 % this script implements the SBM Inference Routine as described in the manuscript
 
     if(~exist('sanity'))
@@ -23,6 +23,7 @@ function [ps, real_ll, null_ll_median] = FundamentalUnits_SBM_Test(path,nperms,t
     ps = ones(topComps,1);
     real_ll = zeros(topComps,1);
     null_ll_median = zeros(topComps,1);
+    null_ll_full = zeros(topComps,nperms);
 
     parfor i=1:topComps
         tic;
@@ -33,7 +34,7 @@ function [ps, real_ll, null_ll_median] = FundamentalUnits_SBM_Test(path,nperms,t
             A = A + A';
         end
         A = A(mask,mask);
-        [ps(i), real_ll(i), null_ll_median(i)] = SBM_CommunityTest(A,C,nperms);
+        [ps(i), real_ll(i), null_ll_median(i), null_ll_full(i,:)] = SBM_CommunityTest(A,C,nperms);
         time = toc;
         fprintf(1,'Permutations for Component %d took %f seconds\n\n',i,time);
     end
