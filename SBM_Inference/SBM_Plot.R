@@ -1,6 +1,9 @@
 library(ggplot2)
 library(R.matlab)
 
+a <- 0.005
+b <- 0.995
+
 results = R.matlab::readMat('SBM_Inference.mat')
 
 sbm <- data.frame(
@@ -26,16 +29,15 @@ sbm$RightQuantile <- tiles[,2]
 
 
 png('SBM_Likelihood.png',units='in',width=5,height=5,res=300)
+
 ggplot(data=sbm) +
-    geom_line(aes(x = CompNum, y=log.lik.true,color='blue'),show.legend=FALSE) +
-    geom_line(aes(x = CompNum, y=log.lik.null.median,color='red'),show.legend=FALSE) +
+    geom_line(aes(x = CompNum, y=log.lik.true,color='b',linetype='s'),show.legend=FALSE) +
+    geom_line(aes(x = CompNum, y=log.lik.null.median,color='r',linetype='s'),show.legend=FALSE) +
+    geom_line(aes(x = CompNum, y=LeftQuantile,color='k',linetype='d'),show.legend=FALSE) +
+    geom_line(aes(x = CompNum, y=RightQuantile,color='k',linetype='d'),show.legend=FALSE) +
+    scale_color_manual(values=c(b='blue',r='red',k='black')) +
+    scale_linetype_manual(values=c(s='solid',d='dashed')) +
     xlab('Component Number') +
     ylab('Profile Log Likelihood')
-dev.off()
 
-png('SBM_Likelihood_Diff.png',units='in',width=5,height=5,res=300)
-ggplot(data=sbm) +
-    geom_line(aes(x = CompNum, y=LogLikGap,color='yellow'),show.legend=FALSE) +
-    xlab('Component Number') +
-    ylab('Difference in Profile Log Likelihood')
 dev.off()
