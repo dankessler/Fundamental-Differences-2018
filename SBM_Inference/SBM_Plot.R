@@ -3,7 +3,10 @@ library(R.matlab)
 
 results = R.matlab::readMat('SBM_Inference.mat')
 
-sbm = data.frame(results$sbm[,,1])
+sbm <- data.frame(
+    pval=results$sbm['pval',1,1],
+    log.lik.true=results$sbm['log.lik.true',1,1],
+    log.lik.null.median=results$sbm['log.lik.null.median',1,1])
 
 sbm$CompNum = 1:nrow(sbm)
 sbm$LogLikGap = sbm$log.lik.true - sbm$log.lik.null.median
