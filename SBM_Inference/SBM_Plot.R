@@ -8,8 +8,21 @@ sbm <- data.frame(
     log.lik.true=results$sbm['log.lik.true',1,1],
     log.lik.null.median=results$sbm['log.lik.null.median',1,1])
 
+full.null <- results$sbm['log.lik.null.full',1,1]$log.lik.null.full
+
+get.quantiles <- function(dat,a,b){
+    ## obtain the a'th and b'th
+    ## quantiles from the empirical data
+    cdf <- ecdf(dat)
+    return(c(quantile(cdf,a),quantile(cdf,b)))
+}
+
+tiles <- t(apply(full.null,1,get.quantiles,a=a,b=b))
+
 sbm$CompNum = 1:nrow(sbm)
 sbm$LogLikGap = sbm$log.lik.true - sbm$log.lik.null.median
+sbm$LeftQuantile <- tiles[,1]
+sbm$RightQuantile <- tiles[,2]
 
 
 png('SBM_Likelihood.png',units='in',width=5,height=5,res=300)
