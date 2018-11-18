@@ -25,7 +25,7 @@ function [ps, real_ll, null_ll_median, null_ll_full] = FundamentalUnits_SBM_Test
     null_ll_median = zeros(topComps,1);
     null_ll_full = zeros(topComps,nperms);
 
-    parfor i=1:topComps
+    for i=1:topComps
         tic;
         fprintf(1,'Currently working on Component %d of %d requested\n',i,topComps);
         rng(seed+i);
