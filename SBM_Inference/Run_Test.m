@@ -19,6 +19,6 @@ topComps = 809;
 dropNets = [-1];
 sanity=1;
 
-[fake.pval,fake.log_lik_true,fake.log_lik_null_median,fake.log_lik_full_full] = FundamentalUnits_SBM_Test(path,nperms,topComps,dropNets,sanity,seed);
+[fake.pval,fake.log_lik_true,fake.log_lik_null_median,fake.log_lik_null_full] = FundamentalUnits_SBM_Test(path,nperms,topComps,dropNets,sanity,seed);
 
 save('SBM_Fake_Inference.mat','fake');
